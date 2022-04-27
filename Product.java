@@ -1,12 +1,20 @@
 package com.bkitsolution;
 
+import static com.bkitsolution.Catalogue.SHIPPING_RATE;
+import static com.bkitsolution.ProductType.PHYSICAL;
+
 public class Product {
     private final String name;
     private int price;
+    private int discount;
+    private ProductType type;
+    private int weight;
 
-    public Product(String name, int price) {
+    public Product(String name, int price, ProductType type, int weight) {
         this.name = name;
         this.price = price;
+        this.type = type;
+        this.weight = weight;
     }
 
     public String getName() {
@@ -14,14 +22,18 @@ public class Product {
     }
 
     public int getPrice() {
-        return price;
+        int shippingCost = type.getShippingCost(weight);
+
+        return (int)(price * (100 - discount)/100.0) + shippingCost;
     }
 
     @Override
     public String toString() {
-        return "\n" + "Product{" +
+        return  "Product{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
+                ", type=" + type +
+                ", weight=" + weight +
                 "}";
     }
 }

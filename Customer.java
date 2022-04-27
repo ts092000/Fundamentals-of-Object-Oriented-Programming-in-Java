@@ -1,5 +1,7 @@
 package com.bkitsolution;
 
+import java.util.Optional;
+
 public class Customer {
     private final String name;
     private CreditCard creditCard;
@@ -7,6 +9,11 @@ public class Customer {
     public Customer(String name, long ccNumber) {
         this.name = name;
         this.creditCard = new CreditCard(ccNumber);
+    }
+
+    public Optional<Order> checkout(ShoppingCart cart) {
+        Optional<Payment> payment = creditCard.mkPayment(cart.getTotalCost());
+        return payment.map(value -> new Order(this, cart, value));
     }
 
     @Override
