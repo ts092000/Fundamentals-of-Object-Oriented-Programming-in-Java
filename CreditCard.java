@@ -3,7 +3,7 @@ package com.bkitsolution;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CreditCard {
+public class CreditCard implements PaymentMethod {
     private final long cardNumber;
 
     public CreditCard(long cardNumber) {

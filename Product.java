@@ -3,37 +3,45 @@ package com.bkitsolution;
 import static com.bkitsolution.Catalogue.SHIPPING_RATE;
 import static com.bkitsolution.ProductType.PHYSICAL;
 
-public abstract class Product {
-    private final String name;
-    private int price;
-    private int discount;
+public abstract class Product implements Comparable<Product> {
+    private String name;
+    private int basePrice;
+    private int productDiscount;
 
-    public Product(String name, int price) {
+    public Product(String name, int basePrice) {
         this.name = name;
-        this.price = price;
+        this.basePrice = basePrice;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPrice() {
-        int shippingCost = calculateShippingCost();
-        return Math.round((1 - discount) * price) + shippingCost;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
+    public int getBasePrice() {
+        return basePrice;
     }
 
     @Override
-    public String toString() {
-        return  "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", discount=" + discount +
-                "}";
+    public int compareTo(Product otherProduct) {
+        return name.compareTo(otherProduct.name);
     }
 
-    public abstract int calculateShippingCost();
+    public void setDiscount(int discount) {
+        this.productDiscount = discount;
+    }
+
+    public int getProductDiscount() {
+        return productDiscount;
+    }
+
+    public abstract PriceCalculator createPriceCalculator();
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + basePrice +
+                ", discount=" + productDiscount +
+                '}';
+    }
 }

@@ -15,27 +15,33 @@ public class Main {
         Product toothbrush = Catalogue.getProduct("Electric Toothbrush");
         Product babyAlarm = Catalogue.getProduct("Baby Alarm");
         Product warAndPeace = Catalogue.getProduct("War and Peace (e-book)");
+        Product superSofa = Catalogue.getProduct("Sofa");
 
         ShoppingCart cart = new ShoppingCart();
         cart.addLineItem(new LineItem(babyAlarm, 1));
         cart.addLineItem(new LineItem(warAndPeace, 1));
-        LineItem toothbrushes = new LineItem(toothbrush, 2);
+        cart.addLineItem(new LineItem(superSofa, 1));
+        LineItem toothbrushes = new LineItem(toothbrush, 3);
         cart.addLineItem(toothbrushes);
 //        System.out.println(cart.getTotalCost());
 
-        Customer johnDoe = new Customer("John Doe", 5240793615183440L);
+        Customer janeDoe = new Customer("Jane Doe", 5240793615183440L);
+        janeDoe.addPaymentMethod("Jane's Credit Card", new CreditCard(5420793615183044L));
+        janeDoe.addPaymentMethod("Jane's Bank Account", new BankAccount(80_80_80, 00646160));
 
-        int totalShippingCost = cart.getLineItems().stream()
-                .mapToInt(LineItem::calculateShippingCost)
-                .sum();
-
-        System.out.println("Total shipping cost: " + totalShippingCost);
-
-        int totalCost = cart.getLineItems().stream()
-                .mapToInt(LineItem::getPrice)
-                .sum();
-
-        System.out.println("Total cost: " + totalCost);
+        Optional<Order> order = janeDoe.checkout(cart, "Jane's Bank Account");
+        System.out.println(order);
+//        int totalShippingCost = cart.getLineItems().stream()
+//                .mapToInt(LineItem::calculateShippingCost)
+//                .sum();
+//
+//        System.out.println("Total shipping cost: " + totalShippingCost);
+//
+//        int totalCost = cart.getLineItems().stream()
+//                .mapToInt(LineItem::getPrice)
+//                .sum();
+//
+//        System.out.println("Total cost: " + totalCost);
 
 
 //        Customer acme = new BusinessCustomer("Acme Product", 5555443535352672L, LARGE);
