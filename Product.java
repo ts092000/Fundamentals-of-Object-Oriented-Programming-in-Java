@@ -3,18 +3,14 @@ package com.bkitsolution;
 import static com.bkitsolution.Catalogue.SHIPPING_RATE;
 import static com.bkitsolution.ProductType.PHYSICAL;
 
-public class Product {
+public abstract class Product {
     private final String name;
     private int price;
     private int discount;
-    private ProductType type;
-    private int weight;
 
-    public Product(String name, int price, ProductType type, int weight) {
+    public Product(String name, int price) {
         this.name = name;
         this.price = price;
-        this.type = type;
-        this.weight = weight;
     }
 
     public String getName() {
@@ -22,9 +18,12 @@ public class Product {
     }
 
     public int getPrice() {
-        int shippingCost = type.getShippingCost(weight);
+        int shippingCost = calculateShippingCost();
+        return Math.round((1 - discount) * price) + shippingCost;
+    }
 
-        return (int)(price * (100 - discount)/100.0) + shippingCost;
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     @Override
@@ -32,8 +31,9 @@ public class Product {
         return  "Product{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                ", weight=" + weight +
+                ", discount=" + discount +
                 "}";
     }
+
+    public abstract int calculateShippingCost();
 }

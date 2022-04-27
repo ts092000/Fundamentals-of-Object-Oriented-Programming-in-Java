@@ -11,6 +11,14 @@ public class Customer {
         this.creditCard = new CreditCard(ccNumber);
     }
 
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public int calculateDiscount() {
+        return 0;
+    }
+
     public Optional<Order> checkout(ShoppingCart cart) {
         Optional<Payment> payment = creditCard.mkPayment(cart.getTotalCost());
         return payment.map(value -> new Order(this, cart, value));
